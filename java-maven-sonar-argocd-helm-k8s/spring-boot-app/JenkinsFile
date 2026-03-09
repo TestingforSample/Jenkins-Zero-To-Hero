@@ -21,7 +21,7 @@ pipeline {
     }
     stage('Static Code Analysis') {
       environment {
-        SONAR_URL = "http://54.241.50.63:9000"
+        SONAR_URL = "http://54.219.169.167:9000"
       }
       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
@@ -56,13 +56,13 @@ pipeline {
                     git config user.email "sample.202309@gmail.com"
                     git config user.name "TestingforSample"
                     BUILD_NUMBER=${BUILD_NUMBER}
-                    git checkout main
+                    # git checkout main
                     sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-                    git add .
-                    # git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+                    # git add .
+                    git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
                     git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                    git push origin main 
-                    # git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                    # git push origin main 
+                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                 '''
             }
         }
