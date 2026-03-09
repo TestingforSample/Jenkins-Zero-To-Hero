@@ -64,6 +64,19 @@ cd sonarqube-9.4.0.54424/bin/linux-x86-64/
 
 Hurray !! Now you can access the `SonarQube Server` on `http://<ip-address>:9000` 
 
+You must modify the ArgoCD resource, not the Service. For ClusterIP to NodePort
+
+Run: kubectl edit argocd example-argocd -n default
+
+Then look for server service configuration and change to:
+
+spec:
+  server:
+    service:
+      type: NodePort
+
+Save and exit.
+
 After setting up the AgroCD do port forward 
 
 kubectl port-forward svc/example-argocd-server 7000:80 --address 0.0.0.0
