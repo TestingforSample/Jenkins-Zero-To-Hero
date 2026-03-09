@@ -6,11 +6,6 @@ pipeline {
     }
   }
   stages {
-    stage('Clean Workspace') {
-    steps {
-        cleanWs()
-    }
-}
     stage('Checkout') {
       steps {
         sh 'echo passed'
@@ -61,6 +56,7 @@ pipeline {
                     git config user.email "sample.202309@gmail.com"
                     git config user.name "TestingforSample"
                     BUILD_NUMBER=${BUILD_NUMBER}
+                    git clean -fd
                     git checkout main
                     sed -i "s|image: abhishekf5/ultimate-cicd:.*|image: abhishekf5/ultimate-cicd:${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
                     git add .
